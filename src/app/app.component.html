@@ -1,0 +1,80 @@
+<div class="container">
+<form (ngSubmit) = 'onSubmit(form)' #form = 'ngForm' *ngIf = '!childrenData'>
+  <div class = "form-group">
+    <label for="firstName">Enter your First Name: </label>
+    <input maxlength="25"
+      required
+      ngModel
+      type="text"
+      id='firstName'
+      name='firstName'
+      #fname = 'ngModel'
+    >
+  </div>
+  <div class = "form-group">
+    <label for="lastName">Enter your Last Name: </label>
+    <input maxlength="25" required ngModel type="text" id='lastName' name='lastName'> <br>
+  </div>
+  <div class = "form-group">
+    <label for="maritalStatus">Marital Status</label>
+    <select
+      required
+      ngModel
+      name = 'maritalStatus'
+      id="maritalStatus"
+      (change)="maritalStatus($event)">
+      <option disabled selected value>--Please Select Your Marital Status--</option>
+      <option value="married">Married</option>
+      <option value="unMarried">UnMarried</option>
+    </select><br>
+  </div>
+    <div id = 'wifeDetails' class = 'form-group' *ngIf = 'married'>
+      <label for="wifeFirstName">Enter the first name of your wife: </label>
+      <input required ngModel name="wifeFirstName" type="text" id='wifeFirstName'><br>
+      <label for="wifeSecondName">Enter the last name of your wife: </label>
+      <input required ngModel name="wifeFirstName" type="text" id='wifeSecondName'><br>
+    </div>
+
+    <div required id="children" *ngIf = 'married' (change) = 'children($event)'>
+      <label for="children">Have Children ?</label><br>
+      <input required type="radio" name="children" ngModel name='children' value="yes"> Yes<br>
+      <input required type="radio" name="children" ngModel name='children' value="no"> No<br>
+    </div>
+
+    <div id='childrenNumber' *ngIf = 'haveChildren'>
+      <label for="numberChildren">Enter number of Children </label>
+      <input required type="text"
+       ngModel
+       name='numberOfChildren'
+       id = 'numberChildren'
+       (change) = 'numberOfChildren($event)'>
+    </div>
+      <div class='childrenDetails' *ngFor='let child of childrenNumber' >
+        <div ngModelGroup="children{{child}}">
+        <label for="childrenFirstName">Enter First Name Child </label>
+    <input maxlength="25"
+           required ngModel type="text" id='childrenFirstName'
+           name="childrenFirstName"> <br>
+
+    <label for="childrenLastName">Enter Last Name Child </label>
+    <input maxlength="25" required ngModel type="text" id='childrenLastName'
+           name="childrenLastName"> <br><br>
+
+    <label for="relation">Select your relation:</label>
+    <select
+      required
+      ngModel
+      name = 'relation'
+      id="relation"
+    >
+      <option disabled selected value>--Select --</option>
+      <option value="Father">Father</option>
+      <option value="Step-Father">Step-Father</option>
+    </select><br>
+  </div>
+  </div>
+
+  <button class="btn btn-primary" type='reset'>Reset</button>
+  <button class="btn btn-primary" type="submit" [disabled] = '!form.valid || !form.value.numberOfChildren'>Submit</button>
+</form>
+</div>
